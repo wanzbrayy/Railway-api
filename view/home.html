@@ -28,19 +28,19 @@
 <div id="loginForm" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -60%); text-align: center; background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; color: white;">
     <h2>Login</h2>
     <form id="loginFormSubmit" method="post">
-        <input type="text" id="username" name="username" placeholder="Username" required><br><br>
-        <input type="password" id="password" name="password" placeholder="Password" required><br><br>
+        <input type="text" id="username" name="username" placeholder="Username" required style="background-color: #333; color: white; padding: 10px; border-radius: 5px; width: 100%;"><br><br>
+        <input type="password" id="password" name="password" placeholder="Password" required style="background-color: #333; color: white; padding: 10px; border-radius: 5px; width: 100%;"><br><br>
         <button type="submit">Login</button>
     </form>
 </div>
 
 <!-- Status and Document Link (Hidden Before Login) -->
 <div class="text">
-    <div class="status">
+    <div class="status" style="position: absolute; top: 5%; left: 50%; transform: translateX(-50%);">
         <p>STATUS : <span class="typed-text"></span><span class="cursor typing"></span></p>
     </div>
     <hr>
-    <div id="readdocs" class="readdocs" style="display: none;">
+    <div id="readdocs" class="readdocs" style="display: none; position: absolute; top: 20%; left: 50%; transform: translateX(-50%); text-align: center;">
         <p>MELIHAT <a href="/docs" class="docs">DOCUMENT.</a></p>
     </div>
 </div>
@@ -201,11 +201,12 @@
             const password = document.getElementById("password").value;
 
             // Replace this with actual login validation
-            if (username === 'admin' && password === 'password123') {
+            if (username === 'admin' && password === 'awan08') {
                 // Remove login form and show the main content
                 document.getElementById("loginForm").style.display = 'none';
                 document.querySelector(".text").style.display = 'block';
                 document.getElementById("readdocs").style.display = 'block'; // Show "Melihat Document" link after login
+                window.location.href = "/docs"; // Redirect to /docs after login
             } else {
                 alert("Invalid login credentials.");
             }
