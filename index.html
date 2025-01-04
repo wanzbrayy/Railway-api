@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API - WANZOFCC</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #141E30;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .form {
+      display: none;
+      flex-direction: column;
+    }
+
+    .form.active {
+      display: flex;
+    }
+
+    .form h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .input-field {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-field label {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .input-field input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .btn {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #5995fd;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #4d84e2;
+    }
+
+    .toggle {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5995fd;
+      cursor: pointer;
+    }
+
+    .toggle:hover {
+      text-decoration: underline;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      border-top: 5px solid #5995fd;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      z-index: 10;
+    }
+
+    .spinner.active {
+      display: block;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+
+  <div class="container">
+    <div class="spinner" id="spinner"></div>
+    
+    <!-- Sign In Form -->
+    <form id="sign-in-form" class="form active" onsubmit="handleSignIn(event)">
+      <h2>Sign In</h2>
+      <div class="input-field">
+        <label for="signin-username">Username</label>
+        <input type="text" id="signin-username" placeholder="Enter your username" required>
+      </div>
+      <div class="input-field">
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn">Sign In</button>
+      <p class="toggle" onclick="toggleForm('sign-up')">Don't have an account? Sign Up</p>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form id="sign-up-form" class="form" onsubmit="handleSignUp(event)">
+      <h2>Sign Up</h2>
+      <div class="input-field">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" placeholder="Enter your username" required>
+      </div>
+      <div class="input-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-field">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn">Sign Up</button>
+      <p class="toggle" onclick="toggleForm('sign-in')">Already have an account? Sign In</p>
+    </form>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.size > 0.2) this.size -= 0.1;
+      }
+
+      draw() {
+        ctx.fillStyle = "#5995fd";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    function handleParticles() {
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        if (particles[i].size <= 0.2) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      handleParticles();
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      particles = [];
+      initParticles();
+    });
+
+    let users = {}; // Store registered users
+
+    function toggleForm(form) {
+      const signInForm = document.getElementById("sign-in-form");
+      const signUpForm = document.getElementById("sign-up-form");
+
+      if (form === "sign-in") {
+        signInForm.classList.add("active");
+        signUpForm.classList.remove("active");
+      } else {
+        signUpForm.classList.add("active");
+        signInForm.classList.remove("active");
+      }
+    }
+
+    function handleSignUp(event) {
+      event.preventDefault();
+      const username = document.getElementById("signup-username").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      if (users[username]) {
+        alert("Username already exists!");
+        return;
+      }
+
+      users[username] = { email, password };
+      alert("Sign Up Successful! Redirecting to Sign In...");
+      toggleForm('sign-in');
+    }
+
+    function handleSignIn(event) {
+      event.preventDefault();
+      const username = document.getElementById("signin-username").value;
+      const password = document.getElementById("signin-password").value;
+      const spinner = document.getElementById("spinner");
+
+      if (!users[username] || users[username].password !== password) {
+        alert("Invalid credentials or user not registered!");
+        return;
+      }
+
+      spinner.classList.add("active");
+      setTimeout(() => {
+        spinner.classList.remove("active");
+        alert("Login Successful! Redirecting...");
+        window.location.href = "../view/home.html";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
