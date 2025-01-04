@@ -1,217 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="RestFull Api Free For you">
+    <meta name="description" content="RestFull Api Free For You">
     <meta name="robots" content="archive, follow, imageindex, index, odp, snippet, translate">
     <meta name="author" content="">
     <title>WANZOFC-API</title>
-    <script src="https://kit.fontawesome.com/5367cb78eb.js" crossorigin="anonymous"></script>
+
+    <!-- Open Graph Tags -->
     <meta property="og:site_name" name="og:site_name" content="WANZOFC-API - Rest API'S">
     <meta property="og:title" name="og:title" content="WANZOFC-API Rest Api">
     <meta property="og:url" name="og:url" content="https://api-alpis-production.up.railway.app/">
-    <meta property="og:description" name="og:description" content="ResFull API">
+    <meta property="og:description" name="og:description" content="RestFull API">
     <meta property="og:image" content="https://img101.pixhost.to/images/293/550093499_wanzofc.jpg">
     <link rel="shortcut icon" href="https://img101.pixhost.to/images/293/550093499_wanzofc.jpg "/>  
+    <script src="https://kit.fontawesome.com/5367cb78eb.js" crossorigin="anonymous"></script>
     <script src="sweetalert.min.js"></script>
-    <script src="efek-salju.js" type="text/javascript"> </script><br><br><br>
+    <script src="efek-salju.js" type="text/javascript"></script>
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <link rel="canonical" href="/">
-</head>
-
-<body>
-
-<!-- Login Form -->
-<div id="loginForm" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -60%); text-align: center; background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; color: white;">
-    <h2>Login</h2>
-    <form id="loginFormSubmit" method="post">
-        <input type="text" id="username" name="username" placeholder="Username" required style="background-color: #333; color: white; padding: 10px; border-radius: 5px; width: 100%;"><br><br>
-        <input type="password" id="password" name="password" placeholder="Password" required style="background-color: #333; color: white; padding: 10px; border-radius: 5px; width: 100%;"><br><br>
-        <button type="submit">Login</button>
-    </form>
-</div>
-
-<!-- Status and Document Link (Hidden Before Login) -->
-<div class="text">
-    <div class="status" style="position: absolute; top: 5%; left: 50%; transform: translateX(-50%);">
-        <p>STATUS : <span class="typed-text"></span><span class="cursor typing"></span></p>
-    </div>
-    <hr>
-    <div id="readdocs" class="readdocs" style="display: none; position: absolute; top: 20%; left: 50%; transform: translateX(-50%); text-align: center;">
-        <p>MELIHAT <a href="/docs" class="docs">DOCUMENT.</a></p>
-    </div>
-</div>
-
-<div class="bottom"></div>
-
     <style>
-        @import url(https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&amp;display=swap);
         * {
-            padding: 0;
             margin: 0;
+            padding: 0;
             box-sizing: border-box;
-            font-family: Ubuntu, sans-serif;
-        }
-
-        html {
-            background: url("https://img101.pixhost.to/images/293/550093499_wanzofc.jpg ") no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Ubuntu', sans-serif;
         }
 
         body {
+            background: url("https://img101.pixhost.to/images/293/550093499_wanzofc.jpg") no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        div.text {
+        .status {
             position: absolute;
-        }
-
-        div.text .status {
-            position: relative;
-            animation: animetop .8s;
-        }
-
-        div.text .readdocs {
-            position: relative;
-            animation: animebot .8s;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #0f0; /* Hijau terang */
+            font-size: 18px;
+            font-weight: bold;
             text-align: center;
         }
 
-        @keyframes animetop {
-            0% {
-                top: -200px;
-                opacity: 0;
-            }
-            100% {
-                top: 0;
-                opacity: 1;
-            }
+        #loginForm {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
         }
 
-        @keyframes animebot {
-            0% {
-                top: 200px;
-                opacity: 0;
-            }
-            100% {
-                top: 0;
-                opacity: 1;
-            }
+        #loginForm input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white; /* Warna teks putih */
         }
 
-        p {
-            color: rgba(255, 255, 255, .8);
-            letter-spacing: .15em;
-            font-size: 15px!important;
-            font-weight: 600;
+        #loginForm button {
+            width: 90%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
         }
 
-        a {
+        .readdocs {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+        }
+
+        a.docs {
             text-decoration: none;
-            color: rgba(255, 255, 255, .5);
-        }
-
-        a.sosmed {
-            color: rgba(255, 255, 255, .8);
-        }
-
-        a:hover {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 1);
-        }
-
-        .typed-text {
             color: #0f0;
         }
 
-        .cursor {
-            overflow: hidden;
-            border-right: .15em solid orange;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .15em;
-            animation: typing 1.5s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
+        @media screen and (max-width: 768px) {
+            /* Untuk ponsel */
+            .status {
+                top: 5%; /* Status aktif di atas form login */
             }
-            to {
-                width: 100%;
-            }
-        }
 
-        @keyframes blink-caret {
-            from, to {
-                border-color: transparent;
+            #loginForm {
+                width: 90%;
+                top: 60%;
+                transform: translate(-50%, -50%);
             }
-            50% {
-                border-color: orange;
+
+            #loginForm input {
+                padding: 8px;
             }
-        }
 
-        hr {
-            margin: 10px auto;
-            position: relative;
-            background: rgba(255, 255, 255, .5);
-            width: 80%;
-            height: 2px;
-        }
-
-        div.bottom {
-            position: fixed;
-            left: 50%;
-            bottom: 50px;
-            transform: translate(-50%, -50%);
-            margin: 0 auto;
+            #loginForm button {
+                padding: 8px;
+            }
         }
     </style>
+</head>
+<body>
 
-    <script>
-        const typedTextSpan = document.querySelector(".typed-text"),
-            textArray = ["AKTIF", "ONLINE"],
-            typingDelay = 200,
-            erasingDelay = 100,
-            newTextDelay = 2e3;
-        let textArrayIndex = 0,
-            charIndex = 0;
+<!-- Status Aktif -->
+<div class="status">
+    STATUS: <span class="typed-text"></span><span class="cursor typing"></span>
+</div>
 
-        function type() {
-            charIndex < textArray[textArrayIndex].length ? (typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex), charIndex++, setTimeout(type, 200)) : setTimeout(erase, 2e3);
+<!-- Form Login -->
+<div id="loginForm">
+    <h2>Login</h2>
+    <form id="loginFormSubmit">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<!-- Teks Melihat Document -->
+<div class="readdocs">
+    <p>MELIHAT <a href="/docs" class="docs">DOCUMENT.</a></p>
+</div>
+
+<script>
+    const typedTextSpan = document.querySelector(".typed-text");
+    const textArray = ["AKTIF", "ONLINE"];
+    let textArrayIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+        if (charIndex < textArray[textArrayIndex].length) {
+            typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+            charIndex++;
+            setTimeout(type, 200);
+        } else {
+            setTimeout(erase, 2000);
         }
+    }
 
-        function erase() {
-            charIndex > 0 ? (typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1), charIndex--, setTimeout(erase, 100)) : (textArrayIndex++, textArrayIndex >= textArray.length && (textArrayIndex = 0), setTimeout(type, 1300));
+    function erase() {
+        if (charIndex > 0) {
+            typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(erase, 100);
+        } else {
+            textArrayIndex++;
+            if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+            setTimeout(type, 1300);
         }
-        document.addEventListener("DOMContentLoaded", (function() {
-            setTimeout(type, 2250);
-        }));
+    }
 
-        // Handle login form submission
-        document.getElementById("loginFormSubmit").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(type, 1000);
+    });
 
-            // Replace this with actual login validation
-            if (username === 'admin' && password === 'awan08') {
-                // Remove login form and show the main content
-                document.getElementById("loginForm").style.display = 'none';
-                document.querySelector(".text").style.display = 'block';
-                document.getElementById("readdocs").style.display = 'block'; // Show "Melihat Document" link after login
-                window.location.href = "/docs"; // Redirect to /docs after login
-            } else {
-                alert("Invalid login credentials.");
-            }
-        });
-    </script>
+    // Handle login form submission
+    document.getElementById("loginFormSubmit").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "password123") {
+            document.getElementById("loginForm").style.display = "none";
+            document.querySelector(".readdocs").style.display = "block";
+            window.location.href = "/docs"; // Redirect to /docs
+        } else {
+            alert("Invalid login credentials.");
+        }
+    });
+</script>
 
 </body>
 </html>
